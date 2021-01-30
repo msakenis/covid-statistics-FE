@@ -1,11 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-import App from './App';
+import Routes from './Routes';
+import 'normalize.css';
+import { ThemeProvider } from 'styled-components';
+import theme from './theme';
 
 ReactDOM.render(
     <React.StrictMode>
-        <App />
+        <ThemeProvider theme={theme}>
+            <Routes />
+        </ThemeProvider>
     </React.StrictMode>,
     document.getElementById('root'),
 );
