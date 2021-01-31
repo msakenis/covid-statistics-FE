@@ -1,36 +1,59 @@
 import React, { useState, useEffect } from 'react';
-import { Dropdown } from '../../components';
+import { useParams, useHistory } from 'react-router-dom';
+import { Dropdown, PageWrapper } from '../../components';
 import { CovidDataType } from '../../helpers/SharedTypes';
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
+import { getOptions } from './ChartOptions';
+import { History } from 'history';
 
 type GetCovidDataFn = (
     selectedCountry: string,
-    setCovidData: React.Dispatch<React.SetStateAction<CovidDataType[]>>,
+    setCovidData: React.Dispatch<React.SetStateAction<CovidDataType>>,
+    history: History,
 ) => void;
 
-const getCovidData: GetCovidDataFn = (selectedCountry, setCovidData) => {
-    fetch(`http://localhost:3000/countries/${selectedCountry}`)
+interface RouteParams {
+    country: string;
+}
+
+const getCovidData: GetCovidDataFn = (selectedCountry, setCovidData, history) => {
+    fetch(`http://localhost:4000/countries/${selectedCountry}`)
         .then((res) => res.json())
-        .then((data) => setCovidData(data));
+        .then((data) => {
+            setCovidData(data);
+            history.replace({ pathname: `/${selectedCountry}` }); // change URL in case user wants to share
+        });
 };
 
 const Home: React.FC = () => {
-    const [covidData, setCovidData] = useState<CovidDataType[]>([]);
+    const [covidData, setCovidData] = useState<CovidDataType>({ deaths: [], cases: [], categories: [] });
     const [allCountries, setAllCountries] = useState<string[]>([]);
-
+    const { country } = useParams<RouteParams>();
+    const history = useHistory();
     covidData && console.log(covidData);
+
     useEffect(() => {
-        fetch(`http://localhost:3000/countries`)
+        fetch(`http://localhost:4000/countries`)
             .then((res) => res.json())
             .then((data) => setAllCountries(data));
+
+        getCovidData(country, setCovidData, history);
     }, []);
 
     return (
-        <div>
-            <Dropdown options={allCountries} handleChange={(e) => getCovidData(e.target.value, setCovidData)} />
+        <PageWrapper>
             <div>
-                <ul>{covidData && covidData.map((item, index) => <li key={index}>{item.cumulative_count}</li>)}</ul>
+                <Dropdown
+                    options={allCountries}
+                    value={country}
+                    handleChange={(e) => getCovidData(e.target.value, setCovidData, history)}
+                />
+                <div>
+                    <HighchartsReact highcharts={Highcharts} options={getOptions(covidData)} />
+                </div>
             </div>
-        </div>
+        </PageWrapper>
     );
 };
 export default Home;
