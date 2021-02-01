@@ -12,4 +12,12 @@ export const Wrapper = styled.div`
     box-sizing: border-box;
     border-radius: 1em;
     overflow-y: auto;
+
+    @media (max-width: ${({ theme }) => theme.tablet}) {
+        width: 100%;
+        height: 100%;
+    }
+    @media (max-width: ${({ theme }) => theme.mobile}) {
+        padding: 0.5em;
+    }
 `;
