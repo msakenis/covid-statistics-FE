@@ -1,18 +1,21 @@
 import React from 'react';
 import * as S from './StatsBox.style';
+import { Loading } from '../';
 import { StatsObj } from '../../helpers/SharedTypes';
 
 interface StatsBoxProps {
     statsData: StatsObj[];
 }
 
+//formats to percentage look
 const formatPerc = (number: number): string => {
     return Math.abs(number).toLocaleString(undefined, { style: 'percent', minimumFractionDigits: 2 });
 };
+
 const StatsBox: React.FC<StatsBoxProps> = ({ statsData }) => {
     return (
         <S.FlexBox>
-            {statsData &&
+            {statsData ? (
                 statsData.map((item) => (
                     <S.StatsBox key={item.id}>
                         <S.ImgDiv>
@@ -25,7 +28,10 @@ const StatsBox: React.FC<StatsBoxProps> = ({ statsData }) => {
                             {formatPerc(item.change)}
                         </S.StatsChangeDiv>
                     </S.StatsBox>
-                ))}
+                ))
+            ) : (
+                <Loading />
+            )}
         </S.FlexBox>
     );
 };

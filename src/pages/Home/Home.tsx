@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { Dropdown, PageWrapper, StatsBox } from '../../components';
+import { Dropdown, PageWrapper, StatsBox, Loading } from '../../components';
 import * as S from './Home.style';
 import { CovidDataType } from '../../helpers/SharedTypes';
 import Highcharts from 'highcharts';
@@ -26,7 +26,7 @@ const joinStats = (data: CovidDataType) =>
     });
 
 const getCovidData: GetCovidDataFn = (selectedCountry, setCovidData, history) => {
-    fetch(`http://localhost:4000/countries/${selectedCountry}`)
+    fetch(`${process.env.REACT_APP_SERVER_URL}/countries/${selectedCountry}`)
         .then((res) => res.json())
         .then((data) => {
             setCovidData({ ...data, stats: joinStats(data) });
@@ -41,7 +41,7 @@ const Home: React.FC = () => {
     const history = useHistory();
 
     useEffect(() => {
-        fetch(`http://localhost:4000/countries`)
+        fetch(`${process.env.REACT_APP_SERVER_URL}/countries`)
             .then((res) => res.json())
             .then((data) => setAllCountries(data));
 
@@ -50,17 +50,21 @@ const Home: React.FC = () => {
 
     return (
         <PageWrapper>
-            <div>
-                <Dropdown
-                    options={allCountries}
-                    value={country}
-                    handleChange={(e) => getCovidData(e.target.value, setCovidData, history)}
-                />
-                <StatsBox statsData={covidData.stats} />
-                <S.ChartsDiv>
-                    <HighchartsReact highcharts={Highcharts} options={getOptions(covidData)} />
-                </S.ChartsDiv>
-            </div>
+            {covidData.deaths.length !== 0 ? (
+                <div>
+                    <Dropdown
+                        options={allCountries}
+                        value={country}
+                        handleChange={(e) => getCovidData(e.target.value, setCovidData, history)}
+                    />
+                    <StatsBox statsData={covidData.stats} />
+                    <S.ChartsDiv>
+                        <HighchartsReact highcharts={Highcharts} options={getOptions(covidData)} />
+                    </S.ChartsDiv>
+                </div>
+            ) : (
+                <Loading />
+            )}
         </PageWrapper>
     );
 };

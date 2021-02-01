@@ -11,6 +11,7 @@ const Dropdown: React.FC<DropdownProps> = ({ handleChange, options, value }) => 
     return (
         <S.InputDiv>
             <S.Label htmlFor="dropdown">Select Country/Region</S.Label>
+
             <S.DropdownBox>
                 <S.DropdownSelect onChange={handleChange} id="dropdown" value={value}>
                     {options &&
