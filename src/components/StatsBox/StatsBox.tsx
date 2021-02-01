@@ -20,8 +20,8 @@ const StatsBox: React.FC<StatsBoxProps> = ({ statsData }) => {
                         </S.ImgDiv>
                         <S.StatsInfo>{Math.ceil(item.stats)}</S.StatsInfo>
                         <S.StatsTitle>{item.title}</S.StatsTitle>
-                        <S.StatsChangeDiv increase={item.change <= 0}>
-                            {item.change && <span>{item.change > 0 ? '\u2BC5' : '\u2BC6'}</span>}
+                        <S.StatsChangeDiv increase={item.change >= 0}>
+                            {item.change && <span>{item.change < 0 ? '\u2BC5' : '\u2BC6'}</span>}
                             {formatPerc(item.change)}
                         </S.StatsChangeDiv>
                     </S.StatsBox>
