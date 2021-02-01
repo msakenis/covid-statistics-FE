@@ -10,14 +10,8 @@ const theme = {
     tertiary: {
         color: '#666666',
     },
-    primaryHover: {
-        color: '#ffffff',
-        background: '#333333',
-    },
-    secondaryHover: {
-        color: '#222222',
-        background: '#999999',
-    },
+    tablet: '1200px',
+    mobile: '600px',
 };
 
 export default theme;
