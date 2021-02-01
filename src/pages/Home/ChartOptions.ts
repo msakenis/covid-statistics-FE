@@ -1,4 +1,5 @@
 import { CovidDataType } from '../../helpers/SharedTypes';
+import theme from '../../theme';
 
 type GetOptionsFn = (covidData: CovidDataType) => Record<string, unknown>;
 
@@ -20,7 +21,6 @@ export const getOptions: GetOptionsFn = (covidData) => {
             title: {
                 text: 'People',
             },
-            min: 0,
         },
         plotOptions: {
             line: {
@@ -34,10 +34,12 @@ export const getOptions: GetOptionsFn = (covidData) => {
             {
                 name: `Total deaths`,
                 data: covidData.deaths,
+                color: theme.secondary.color,
             },
             {
                 name: `Total cases`,
                 data: covidData.cases,
+                color: theme.primary.color,
             },
         ],
     };

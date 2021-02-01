@@ -8,7 +8,8 @@ export const Wrapper = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: 2em;
+    padding: 1.5em;
     box-sizing: border-box;
     border-radius: 1em;
+    overflow-y: auto;
 `;

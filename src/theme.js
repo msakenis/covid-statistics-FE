@@ -7,6 +7,9 @@ const theme = {
         color: '#07A287',
         background: '#E1EEEC',
     },
+    tertiary: {
+        color: '#666666',
+    },
     primaryHover: {
         color: '#ffffff',
         background: '#333333',

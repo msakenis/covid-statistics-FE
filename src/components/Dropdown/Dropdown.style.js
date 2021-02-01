@@ -6,7 +6,7 @@ export const InputDiv = styled.div`
 export const Label = styled.label`
     font-size: 14px;
     font-weight: bold;
-    color: ${(props) => props.theme.primary.color};
+    color: ${({ theme }) => theme.primary.color};
     padding: 0;
     margin-bottom: 10px;
     width: 100%;
@@ -25,6 +25,7 @@ export const DropdownSelect = styled.select`
     border-radius: 5px;
     background-size: 20px 20px;
     background-origin: content-box;
+    color: ${({ theme }) => theme.primary.color};
 `;
 
 export const DropdownBox = styled.div``;
