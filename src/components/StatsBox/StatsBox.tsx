@@ -1,19 +1,15 @@
 import React from 'react';
 import * as S from './StatsBox.style';
+import { StatsObj } from '../../helpers/SharedTypes';
 
-type StatsObj = {
-    id: number;
-    title: string;
-    icon: string;
-    stats: string;
-    change: number;
-};
-
-interface StatsDataProps {
+interface StatsBoxProps {
     statsData: StatsObj[];
 }
 
-const StatsBox: React.FC<StatsDataProps> = ({ statsData }) => {
+const formatPerc = (number: number): string => {
+    return Math.abs(number).toLocaleString(undefined, { style: 'percent', minimumFractionDigits: 2 });
+};
+const StatsBox: React.FC<StatsBoxProps> = ({ statsData }) => {
     return (
         <S.FlexBox>
             {statsData &&
@@ -22,11 +18,11 @@ const StatsBox: React.FC<StatsDataProps> = ({ statsData }) => {
                         <S.ImgDiv>
                             <S.Image src={item.icon} alt={item.title} />
                         </S.ImgDiv>
-                        <S.StatsInfo>{item.stats}</S.StatsInfo>
+                        <S.StatsInfo>{Math.ceil(item.stats)}</S.StatsInfo>
                         <S.StatsTitle>{item.title}</S.StatsTitle>
-                        <S.StatsChangeDiv>
-                            <S.ArrowSpan></S.ArrowSpan>
-                            {item.change}
+                        <S.StatsChangeDiv increase={item.change <= 0}>
+                            {item.change && <span>{item.change > 0 ? '\u2BC5' : '\u2BC6'}</span>}
+                            {formatPerc(item.change)}
                         </S.StatsChangeDiv>
                     </S.StatsBox>
                 ))}

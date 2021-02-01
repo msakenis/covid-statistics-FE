@@ -3,8 +3,11 @@ import styled from 'styled-components';
 export const FlexBox = styled.div`
     display: flex;
     width: 100%;
-    margin: 1.5em 0;
+    margin-bottom: 1.5em;
     flex-wrap: wrap;
+    @media (max-width: ${({ theme }) => theme.tablet}) {
+        justify-content: center;
+    }
 `;
 
 export const StatsBox = styled.div`
@@ -18,9 +21,21 @@ export const StatsBox = styled.div`
     flex-direction: column;
     justify-content: space-between;
     box-sizing: border-box;
+    min-width: 15em;
+    margin-top: 1.5em;
 
     &&:not(:last-child) {
         margin-right: 1.5em;
+        @media (max-width: ${({ theme }) => theme.mobile}) {
+            margin-right: 0;
+        }
+    }
+    @media (max-width: ${({ theme }) => theme.tablet}) {
+        margin-right: 1.5em;
+    }
+    @media (max-width: ${({ theme }) => theme.mobile}) {
+        width: 100%;
+        margin-right: 0;
     }
 `;
 
@@ -51,18 +66,15 @@ export const StatsTitle = styled.p`
     font-weight: 600;
 `;
 
-export const StatsChangeDiv = styled.div`
+export const StatsChangeDiv = styled.div<{ increase: boolean }>`
     margin: 0 auto;
     min-width: 6.5em;
-    color: #689f13;
+    color: ${({ increase }) => (increase ? '#689f13' : '#ed5d4f')};
     font-weight: 700;
-`;
-
-export const ArrowSpan = styled.span`
-    font-size: 0.8rem;
-    padding-right: 0.4em;
-
-    &&:after {
-        content: '\u2BC5';
+    && span {
+        font-size: 0.8rem;
+        padding-right: 0.4em;
     }
 `;
+
+export const ArrowSpan = styled.span<{ increase: boolean }>``;
