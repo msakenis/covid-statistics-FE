@@ -57,7 +57,9 @@ const Home: React.FC = () => {
                         value={country}
                         handleChange={(e) => getCovidData(e.target.value, setCovidData, history)}
                     />
+
                     <StatsBox statsData={covidData.stats} />
+
                     <S.ChartsDiv>
                         <HighchartsReact highcharts={Highcharts} options={getOptions(covidData)} />
                     </S.ChartsDiv>
