@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { Dropdown, PageWrapper } from '../../components';
+import { Dropdown, PageWrapper, StatsBox } from '../../components';
+import * as S from './Home.style';
 import { CovidDataType } from '../../helpers/SharedTypes';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { getOptions } from './ChartOptions';
 import { History } from 'history';
+import { stats } from '../../utils/stats';
 
 type GetCovidDataFn = (
     selectedCountry: string,
@@ -49,9 +51,10 @@ const Home: React.FC = () => {
                     value={country}
                     handleChange={(e) => getCovidData(e.target.value, setCovidData, history)}
                 />
-                <div>
+                <StatsBox statsData={stats} />
+                <S.ChartsDiv>
                     <HighchartsReact highcharts={Highcharts} options={getOptions(covidData)} />
-                </div>
+                </S.ChartsDiv>
             </div>
         </PageWrapper>
     );

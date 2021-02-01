@@ -22,9 +22,12 @@ const StatsBox: React.FC<StatsDataProps> = ({ statsData }) => {
                         <S.ImgDiv>
                             <S.Image src={item.icon} alt={item.title} />
                         </S.ImgDiv>
-                        <p>{item.stats}</p>
-                        <p>{item.title}</p>
-                        <div>{item.change}</div>
+                        <S.StatsInfo>{item.stats}</S.StatsInfo>
+                        <S.StatsTitle>{item.title}</S.StatsTitle>
+                        <S.StatsChangeDiv>
+                            <S.ArrowSpan></S.ArrowSpan>
+                            {item.change}
+                        </S.StatsChangeDiv>
                     </S.StatsBox>
                 ))}
         </S.FlexBox>
