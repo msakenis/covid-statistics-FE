@@ -19,21 +19,26 @@ interface RouteParams {
     country: string;
 }
 
+// joins backend calculated stats and front-end info as icons, title
+const joinStats = (data: CovidDataType) =>
+    stats.map((item, index) => {
+        return { ...item, stats: data.stats[index].stats, change: data.stats[index].change };
+    });
+
 const getCovidData: GetCovidDataFn = (selectedCountry, setCovidData, history) => {
     fetch(`http://localhost:4000/countries/${selectedCountry}`)
         .then((res) => res.json())
         .then((data) => {
-            setCovidData(data);
+            setCovidData({ ...data, stats: joinStats(data) });
             history.replace({ pathname: `/${selectedCountry}` }); // change URL in case user wants to share
         });
 };
 
 const Home: React.FC = () => {
-    const [covidData, setCovidData] = useState<CovidDataType>({ deaths: [], cases: [], categories: [] });
+    const [covidData, setCovidData] = useState<CovidDataType>({ deaths: [], cases: [], categories: [], stats: [] });
     const [allCountries, setAllCountries] = useState<string[]>([]);
     const { country } = useParams<RouteParams>();
     const history = useHistory();
-    covidData && console.log(covidData);
 
     useEffect(() => {
         fetch(`http://localhost:4000/countries`)
@@ -51,7 +56,7 @@ const Home: React.FC = () => {
                     value={country}
                     handleChange={(e) => getCovidData(e.target.value, setCovidData, history)}
                 />
-                <StatsBox statsData={stats} />
+                <StatsBox statsData={covidData.stats} />
                 <S.ChartsDiv>
                     <HighchartsReact highcharts={Highcharts} options={getOptions(covidData)} />
                 </S.ChartsDiv>
